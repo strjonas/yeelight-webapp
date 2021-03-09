@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>YEELIGHT</title>
+{% endblock %}
+
+{% block body %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<div class="content">
+    <div style="width: 100%;padding-top:1%;display: flex;justify-content: center;">
+        <div class="list-group" style="background-color: #212525;">
+            <a  class="list-group-item list-group-item-action" style="background-color: #212525;">
+
+                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                    <form action="/onoff" method="post">
+                        <button type="submit" class="btn btn-primary">ON/OFF</button>
+                    </form>
+                    <button type="button" class="btn btn-primary">{{ args[0][args[1]] }}</button>
+                
+                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            Bulbs
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" >
+                            <div class="btn-group-vertical" role="group">
+                                {% for ip in args[0] %}
+                                    
+                                    <form action="/select/{{ ip }}" method="post">
+                                        <button name = "{{ ip }}" type="submit" class="dropdown-item">{{ ip }}</button>
+                                    </form>
+                                {% endfor %}
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+
+            </a>
+
+            <a  class="list-group-item list-group-item-action" style="background-color: #212525;">
+
+                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+
+                    <button type="button" class="btn btn-primary">Color</button>
+                        <input type="color"/>
+                    <button type="button" class="btn btn-primary">
+                        Discover Bulbs
+                    </button>
+
+                    <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        MODI
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        <div class="btn-group-vertical" role="group">
+                            <button class="dropdown-item">
+                            Helligkeitswechsel
+                            </button>
+                            <button class="dropdown-item">
+                            Ambilight
+                            </button>
+                            <button class="dropdown-item">
+                            Farbwechsel
+                            </button>
+                            <button class="dropdown-item">
+                            Random Modes
+                            </button>
+                        </div>
+                    </ul>
+                </div>
+
+            </a>
+
+          </div>
+         
+      </div>
+    
+   
+</div>
+
+<style>
+    
+body, html {
+    display: flex;
+    justify-content: center;
+    padding-left: 0%;
+    margin-left: 0%;
+    background-color: #212525 ;
+    font-family: sans-serif;
+
+}
+
+.container{
+    padding-left: 0%;
+    margin-left: 0%;
+}
+input{
+    width: 50px;
+    height: 40px;
+}
+.content {
+    padding-left: 0%;
+    margin-left: 0%;
+}
+
+</style>
+{% endblock %}
+
