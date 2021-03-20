@@ -9,6 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
 <div class="content">
     <div style="width: 100%;padding-top:1%;display: flex;justify-content: center;">
@@ -43,37 +44,86 @@
             <a  class="list-group-item list-group-item-action" style="background-color: #212525;">
 
                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-
-                    <button type="button" class="btn btn-primary">Color</button>
-                        <input type="color"/>
-                    <button type="button" class="btn btn-primary">
-                        Discover Bulbs
-                    </button>
+                    <form action="/changcolor" method="get">
+                        <button type="submit" class="btn btn-primary">Color</button>
+                        <input type="color" value="{{ args[3] }}" id="color" name="color"/>
+                    </form>
+                    
+                        
+                    <form action="/discoverbulbs" method="post">
+                        <button type="submit" class="btn btn-primary">
+                            Discover Bulbs
+                        </button>
+                    </form>
+                    
 
                     <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         MODI
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                         <div class="btn-group-vertical" role="group">
-                            <button class="dropdown-item">
-                            Helligkeitswechsel
-                            </button>
-                            <button class="dropdown-item">
-                            Ambilight
-                            </button>
-                            <button class="dropdown-item">
-                            Farbwechsel
-                            </button>
-                            <button class="dropdown-item">
-                            Random Modes
-                            </button>
+                            <form method="post" action="/mode/helligkeitswechsel">
+                                <button class="dropdown-item">
+                                    Helligkeitswechsel
+                                </button>
+                            </form>
+                            <form method="post" action="/mode/ambilight">
+                                <button class="dropdown-item">
+                                    Ambilight
+                                    </button>
+                            </form>
+                            <form method="post" action="/mode/farbwechsel">
+                                <button class="dropdown-item">
+                                    Farbwechsel
+                                    </button>
+                            </form>
+                            <form method="post" action="/mode/randommodes">
+                                <button class="dropdown-item">
+                                    Random Modes
+                                    </button>
+                            </form>
+                            <form method="post" action="/stop">
+                                <button class="dropdown-item">
+                                    Stop
+                                    </button>
+                            </form>
+                            <form method="post" action="/reset">
+                                <button class="dropdown-item">
+                                    Reset
+                                    </button>
+                            </form>
+                                                                                   
+                            
                         </div>
                     </ul>
                 </div>
 
             </a>
+            <a  class="list-group-item list-group-item-action" style="background-color: #212525;">
+                <form action="/set_brightness" method="get">
+                    <label for="brightness">Brightness: </label>
+                    <input class="rangeinput" type="range" id="brightness" name="brightness" min="0" max="100" value="{{ bright_val }}" onchange="submit">
+                    <script>
+                        document.getElementById("brightness").defaultValue = "{{ bright_val }}";
+                    </script>
+                    <button type="submit" class="btn btn-primary">
+                        Submit
+                    </button>
+                </form>
+            </a>
 
-          </div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>Fehler!</strong> {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+        </div>
          
       </div>
     
@@ -89,6 +139,13 @@ body, html {
     margin-left: 0%;
     background-color: #212525 ;
     font-family: sans-serif;
+
+}
+
+.rangeinput{
+    width: 150px;
+    padding: 0;
+    margin: 0;
 
 }
 
